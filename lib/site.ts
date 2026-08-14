@@ -27,12 +27,14 @@ export const site = {
       href: "https://wa.me/971588976916",
     },
     address: {
-      street: "",
+      street: "Al Mezan Tower, Al Qusais, Muhaisnah 4, Fewa 1",
       city: "Dubai",
       country: "United Arab Emirates",
-      full: "Dubai, United Arab Emirates",
+      full: "Al Mezan Tower, Al Qusais, Muhaisnah 4, Fewa 1, Dubai",
     },
-    hours: "Sunday – Thursday, 9:00 – 18:00 GST",
+    hours: "Monday – Saturday, 9:00 – 18:00 GST",
+    /** Schema.org opening-hours shorthand, kept in step with `hours` above. */
+    openingHours: "Mo-Sa 09:00-18:00",
   },
 
   social: {

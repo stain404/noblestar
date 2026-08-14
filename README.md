@@ -65,7 +65,8 @@ clearly marked placeholders in the meantime.
    coverage carries commercial and legal risk.
 5. **Company profile PDF** — drop into `public/` and link it from `app/about/page.tsx`
    (marked with a TODO).
-6. **Street address and map** — `app/contact/page.tsx` (marked with a TODO).
+6. **Embedded map** — `app/contact/page.tsx`. The street address itself is
+   confirmed and lives in `lib/site.ts`.
 7. **Trade licence number and certifications** (FIATA, IATA, customs broker
    registration) — `app/about/page.tsx` has a placeholder card for these.
 8. **Resend account** — verified sending domain, API key and the sales inbox.

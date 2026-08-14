@@ -51,9 +51,11 @@ export function organizationSchema() {
     telephone: site.contact.phones.map((p) => p.number),
     address: {
       "@type": "PostalAddress",
+      streetAddress: site.contact.address.street,
       addressLocality: site.contact.address.city,
       addressCountry: "AE",
     },
+    openingHours: site.contact.openingHours,
     areaServed: ["AE", "SA", "OM", "QA", "KW", "BH"].map((code) => ({
       "@type": "Country",
       identifier: code,

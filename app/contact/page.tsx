@@ -118,11 +118,6 @@ export default function ContactPage() {
                 />
                 {site.contact.hours}
               </p>
-              {/* TODO: swap for the exact office address and an embedded map once supplied. */}
-              <p className="mt-5 border border-dashed border-ink-300 bg-paper-100 p-4 text-xs leading-relaxed text-ink-500">
-                Full street address and a map will be added here once the client
-                supplies the registered office details.
-              </p>
             </Field>
           </div>
 
