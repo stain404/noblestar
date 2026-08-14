@@ -1,26 +1,321 @@
 @import "tailwindcss";
+/* enter/exit utilities (animate-in, fade-*, zoom-*, slide-*) used by the Radix primitives */
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================================
+   ATTESTED — the Noble Star visual world.
+
+   In GCC trade nothing is true until an authority has stamped it. The whole
+   surface is built as a document that carries its own attestations: ruled
+   fields with captions that name what they hold, marks that name the authority
+   behind a claim, and one overprint colour reserved for what is not yet
+   verified. Nothing here is decorative — a caption, a rule or a mark is only
+   used where it carries information.
+
+   Substrate is security paper, not cream: a cool green-grey with a fine
+   engine-turned screen. Ink is stamp-pad black, which is violet, not neutral.
+   ========================================================================= */
+
+@theme {
+  --animate-accordion-down: accordion-down 0.2s var(--ease-out-soft);
+  --animate-accordion-up: accordion-up 0.2s var(--ease-out-soft);
+
+  /* Substrate — security paper. Cool, faintly green, never cream. */
+  --color-paper-50: #f8f9f5;
+  --color-paper-100: #eff1e9;
+  --color-paper-200: #e1e5d8;
+  --color-paper-300: #c8cfba;
+  --color-paper-400: #a6af95;
+  --color-paper-500: #7f8970;
+
+  /* Ink — stamp pad black, dried. Carries a violet cast at every step. */
+  --color-ink-900: #17131f;
+  --color-ink-800: #221c2e;
+  --color-ink-700: #342b47;
+  --color-ink-600: #4d4166;
+  --color-ink-500: #6d6088;
+  --color-ink-400: #948aa9;
+  --color-ink-300: #b9b2c8;
+  --color-ink-200: #d8d3e0;
+  --color-ink-100: #ebe8f0;
+
+  /* Attestation violet — the mark, and every primary action. */
+  --color-stamp-900: #241547;
+  --color-stamp-800: #2f1c5e;
+  --color-stamp-700: #3d2578;
+  --color-stamp-600: #4c2f95;
+  --color-stamp-500: #6041b4;
+  --color-stamp-400: #8467cf;
+  --color-stamp-300: #ae99e3;
+  --color-stamp-200: #d6caf3;
+  --color-stamp-100: #eae3fa;
+  --color-stamp-50: #f4f0fd;
+
+  /* Oxide — the official overprint. Provisional, refused, held, stopped.
+     Deliberately deeper and cooler than the logo mark's amber so the two
+     never read as the same signal. */
+  --color-oxide-700: #8c2617;
+  --color-oxide-600: #a82f1c;
+  --color-oxide-500: #c43b22;
+  --color-oxide-200: #f0cec6;
+  --color-oxide-100: #f8e5e0;
+
+  /* Seal — cleared, verified, own-operation. */
+  --color-seal-800: #143528;
+  --color-seal-700: #1d4635;
+  --color-seal-600: #2a6049;
+  --color-seal-500: #3b7f62;
+  --color-seal-200: #c6ded2;
+  --color-seal-100: #e0ede7;
+
+  /* The supplied mark's own colours, for the rare places the identity needs
+     them outside the lockup. Binding brand assets — never re-tinted. */
+  --color-mark-azure: #1b75ba;
+  --color-mark-azure-light: #28a6de;
+  --color-mark-amber: #f79421;
+
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-spline-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* Display sizes. The document register wants tight, wide, heavy headings —
+     set the width axis with `.u-wide`, not a second family. */
+  --text-display: clamp(2.75rem, 1.5rem + 5vw, 5.5rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.125rem, 1.4rem + 2.9vw, 3.5rem);
+  --text-h1--line-height: 1.02;
+  --text-h1--letter-spacing: -0.028em;
+  --text-h2: clamp(1.625rem, 1.25rem + 1.6vw, 2.375rem);
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.022em;
+
+  /* Field caption — the mono label that names what a box holds. */
+  --text-caption: 0.6875rem;
+  --text-caption--line-height: 1;
+  --text-caption--letter-spacing: 0.16em;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  /* The press of a stamp: fast down, no float on the way out. */
+  --ease-stamp: cubic-bezier(0.2, 0.9, 0.15, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* The mark lands: pressed down, ink spreading, no bounce back out. */
+@keyframes stamp-land {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--stamp-rotate, -4deg)) scale(1.28);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(var(--stamp-rotate, -4deg)) scale(1);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper-50);
+    color: var(--color-ink-700);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink-900);
+    font-weight: 700;
+    font-stretch: 112%;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* The focus ring is a stamp outline, square like everything else. */
+  :focus-visible {
+    outline: 2px solid var(--color-stamp-600);
+    outline-offset: 2px;
+    border-radius: 0;
+  }
+
+  ::selection {
+    background-color: var(--color-stamp-200);
+    color: var(--color-stamp-900);
+  }
+}
+
+@layer components {
+  /* ---------------------------------------------------------------------
+     The field — this world's only container primitive.
+
+     A ruled box whose caption names what it holds, exactly like a box on a
+     bill of lading. There are no cards, no rounded corners and no shadows
+     anywhere in this system; depth is carried by rules and ink weight.
+     --------------------------------------------------------------------- */
+  .field {
+    position: relative;
+    border: 1px solid var(--color-paper-300);
+    background-color: white;
+    padding: 1.5rem 1.375rem 1.375rem;
+  }
+
+  .field > .field-caption:first-child {
+    margin-bottom: 0.875rem;
+  }
+
+  .field-caption {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-caption);
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-400);
+  }
+
+  /* A grid of fields sharing single rules, the way a form's boxes do: the
+     container draws the outer rule, each cell draws only two of its own. */
+  .field-grid {
+    display: grid;
+    border-top: 1px solid var(--color-paper-300);
+    border-left: 1px solid var(--color-paper-300);
+  }
+
+  /* A list wrapper set to `display: contents` passes its child through as the
+     real grid item and generates no box of its own, so the rule has to reach
+     the grandchild — otherwise the dividing rules silently vanish. */
+  .field-grid > *,
+  .field-grid > .contents > * {
+    border-right: 1px solid var(--color-paper-300);
+    border-bottom: 1px solid var(--color-paper-300);
+  }
+
+  /* ---------------------------------------------------------------------
+     Security printing. A fine engine-turned screen — the moiré on a
+     certificate of origin. Used only on the two drenched bands, never as
+     wallpaper.
+     --------------------------------------------------------------------- */
+  .guilloche {
+    background-image:
+      repeating-radial-gradient(
+        circle at 22% 40%,
+        transparent 0 6px,
+        currentColor 6px 6.5px
+      ),
+      repeating-radial-gradient(
+        circle at 78% 62%,
+        transparent 0 7px,
+        currentColor 7px 7.5px
+      );
+    opacity: 0.14;
+  }
+
+  /* A ruled line screen — the tint block behind a document's header. */
+  .linescreen {
+    background-image: repeating-linear-gradient(
+      90deg,
+      currentColor 0 1px,
+      transparent 1px 5px
+    );
+    opacity: 0.16;
+  }
+
+  /* ---------------------------------------------------------------------
+     The mark. Only rendered where a named authority actually backs the
+     claim; `Attestation` in components/ui/attestation.tsx enforces that by
+     requiring the authority as a prop.
+     --------------------------------------------------------------------- */
+  .stamp {
+    --stamp-rotate: -4deg;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 2px solid currentColor;
+    padding: 0.4375rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-caption);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transform: rotate(var(--stamp-rotate));
+    animation: stamp-land 0.42s var(--ease-stamp) both;
+  }
+
+  .stamp::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* the uneven bite of a rubber die on paper */
+    box-shadow: inset 0 0 0 1px currentColor;
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 82rem;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .container-page {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Width axis on the variable grotesque. Headings in this world are wide the
+   way stencilled and stamped lettering is wide. */
+@utility u-wide {
+  font-stretch: 118%;
+}
+
+@utility u-caption {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }

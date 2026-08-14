@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Noble Star Shipping
 
-## Getting Started
+Marketing website for Noble Star Shipping — a Dubai-based freight forwarder and
+customs broker operating across all six GCC markets.
 
-First, run the development server:
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · MDX.
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in the values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The site runs at http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Without `RESEND_API_KEY`, the quote and contact forms still work end to end —
+submissions are logged to the server console instead of emailed. That is deliberate,
+so the forms are testable before email is provisioned.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts
 
-## Learn More
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Development server |
+| `npm run build` | Production build (also type-checks) |
+| `npm run start` | Serve the production build |
+| `npm run lint` | ESLint, including the React 19 compiler rules |
 
-To learn more about Next.js, take a look at the following resources:
+## Environment variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+See `.env.example`. `RESEND_FROM` must be an address on a domain verified in Resend,
+otherwise sending fails at runtime.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Editing content
 
-## Deploy on Vercel
+**Services** — `content/services/*.mdx`. The filename is the URL slug. Frontmatter
+drives the nav dropdown, the cards, the sidebar tables and the FAQ schema; the body is
+long-form copy. Adding a file adds the service everywhere, including the sitemap.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Blog** — `content/blog/*.mdx`. Set `draft: true` to keep a post visible in
+development but excluded from the index, its own route and the sitemap in production.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Company details** — `lib/site.ts`. Phone numbers, email, address, stats and
+navigation all live here and nowhere else.
+
+**Coverage** — `lib/coverage.ts`. Each country has a `directService` flag: `true`
+renders as an own-operation market, `false` renders as "via partner network".
+
+## Outstanding items before launch
+
+These are content and credentials the client needs to supply; the site is built with
+clearly marked placeholders in the meantime.
+
+1. **Logo** — SVG or high-res PNG. Replace the placeholder mark in
+   `components/layout/logo.tsx`.
+2. **Brand colours** — currently a maritime navy and gold palette defined in the
+   `@theme` block of `app/globals.css`.
+3. **Photography** — warehouse, fleet, team and port operations. The design currently
+   uses no photography rather than placeholder stock.
+4. **Confirmed GCC coverage** — `lib/coverage.ts` currently marks UAE, Saudi Arabia,
+   Oman and Qatar as own operations and Kuwait and Bahrain as partner network. This is
+   an assumption and **must be verified by operations before launch** — overstated
+   coverage carries commercial and legal risk.
+5. **Company profile PDF** — drop into `public/` and link it from `app/about/page.tsx`
+   (marked with a TODO).
+6. **Street address and map** — `app/contact/page.tsx` (marked with a TODO).
+7. **Trade licence number and certifications** (FIATA, IATA, customs broker
+   registration) — `app/about/page.tsx` has a placeholder card for these.
+8. **Resend account** — verified sending domain, API key and the sales inbox.
+
+Service transit times, port lists and customs notes throughout `content/` and
+`lib/coverage.ts` were written from general GCC trade knowledge and should be reviewed
+by operations for accuracy before launch.
+
+## Deployment
+
+Deploys to Vercel with no configuration beyond the environment variables. Set
+`NEXT_PUBLIC_SITE_URL` to the production domain so canonical URLs, the sitemap and
+JSON-LD resolve correctly.
+
+## Known issues
+
+`npm audit` reports high-severity advisories in transitive dependencies of Next.js and
+ESLint (`postcss`, `sharp`/libvips, `brace-expansion`). They are build-time
+dependencies pinned by the framework and cannot be resolved without downgrading Next.
+Re-check when Next.js publishes an update.
