@@ -46,7 +46,7 @@ export function PageHero({
                   ) : (
                     <Link
                       href={crumb.path}
-                      className="u-caption text-ink-400 transition-colors hover:text-stamp-700"
+                      className="u-caption text-ink-500 transition-colors hover:text-stamp-700"
                     >
                       {crumb.name}
                     </Link>

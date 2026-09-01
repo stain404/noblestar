@@ -47,7 +47,7 @@ function FieldShell({
             *
           </span>
         ) : (
-          <span className="ml-1.5 text-xs font-normal text-ink-400">
+          <span className="ml-1.5 text-xs font-normal text-ink-500">
             (optional)
           </span>
         )}

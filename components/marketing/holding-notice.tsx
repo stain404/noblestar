@@ -49,7 +49,7 @@ export function HoldingNotice({
             </a>
           </div>
 
-          <p className="u-caption mt-12 border-t border-paper-300 pt-6 text-ink-400">
+          <p className="u-caption mt-12 border-t border-paper-300 pt-6 text-ink-500">
             Held pending review · {site.name} Services L.L.C
           </p>
         </div>

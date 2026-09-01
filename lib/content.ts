@@ -1,10 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { photo } from "./photos";
 
 /**
- * The only module that touches the filesystem. Swapping MDX for a headless CMS
- * later means rewriting this file and nothing else.
+ * The only module that reads the content directory. Swapping MDX for a
+ * headless CMS later means rewriting this file and nothing else. Photographs
+ * are public assets rather than content, and are resolved by `lib/photos.ts`.
  */
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
@@ -23,6 +25,17 @@ export type ServiceMeta = {
   documents?: string[];
   faqs?: Faq[];
   related?: string[];
+  /**
+   * Resolved from `public/photos/services/<slug>`, not from frontmatter — a
+   * photograph exists because someone put a file there, and there is no state
+   * where the two can disagree. Null until one is supplied.
+   */
+  photo: string | null;
+  /**
+   * Alt text for that photograph. Override in frontmatter as `photoAlt` when
+   * the supplied image shows something more specific than the default.
+   */
+  photoAlt?: string;
 };
 
 export type PostMeta = {
@@ -51,11 +64,19 @@ function readFile(dir: string, file: string) {
 
 /* ---------------------------------- services --------------------------------- */
 
+function toServiceMeta(slug: string, data: Record<string, unknown>): ServiceMeta {
+  return {
+    ...(data as Omit<ServiceMeta, "slug" | "photo">),
+    slug,
+    photo: photo(`services/${slug}`),
+  };
+}
+
 export function getServices(): ServiceMeta[] {
   return readDir("services")
     .map((file) => {
       const { data } = readFile("services", file);
-      return { ...(data as Omit<ServiceMeta, "slug">), slug: file.replace(/\.mdx$/, "") };
+      return toServiceMeta(file.replace(/\.mdx$/, ""), data);
     })
     .sort((a, b) => a.order - b.order);
 }
@@ -64,10 +85,7 @@ export function getService(slug: string): Entry<ServiceMeta> | null {
   const file = `${slug}.mdx`;
   if (!readDir("services").includes(file)) return null;
   const { data, content } = readFile("services", file);
-  return {
-    meta: { ...(data as Omit<ServiceMeta, "slug">), slug },
-    body: content,
-  };
+  return { meta: toServiceMeta(slug, data), body: content };
 }
 
 /* ----------------------------------- blog ------------------------------------ */

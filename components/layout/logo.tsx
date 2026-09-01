@@ -59,7 +59,16 @@ export function Logo({
   className?: string;
 }) {
   return (
+    /**
+     * The whole lockup is artwork and is hidden from assistive tech, including
+     * the two lines set as live text rather than drawn. Exposed, they are
+     * announced as loose fragments — "SHIPPING SERVICES L.L.C", "LOGS TO
+     * TRUST, LOGISTICS FIRST" — and inside the header's home link they
+     * contradict that link's own label. The name is carried by the link's
+     * `aria-label` in the header, and by the copyright line in the footer.
+     */
     <span
+      aria-hidden="true"
       className={cn(
         "inline-flex items-center gap-2.5",
         onDark ? "text-white" : "text-ink-900",
@@ -81,7 +90,7 @@ export function Logo({
           data-logo-tag=""
           className={cn(
             "mt-1 font-mono text-[0.4375rem] font-medium leading-none tracking-[0.1em]",
-            onDark ? "text-paper-400" : "text-ink-400",
+            onDark ? "text-paper-400" : "text-ink-500",
           )}
         >
           LOGS TO TRUST, LOGISTICS FIRST

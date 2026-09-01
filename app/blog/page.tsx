@@ -117,7 +117,7 @@ export default async function BlogIndexPage({
                   <p className="mt-2.5 flex-1 text-sm leading-relaxed text-ink-600">
                     {post.description}
                   </p>
-                  <span className="mt-5 text-xs text-ink-400">
+                  <span className="mt-5 text-xs text-ink-500">
                     {formatDate(post.date)} · {post.readingTime} min read
                   </span>
                 </Link>

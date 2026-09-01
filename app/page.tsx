@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -17,9 +18,10 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { getPosts, getServices } from "@/lib/content";
 import { countries } from "@/lib/coverage";
 import { custodyPartyCount } from "@/lib/custody";
+import { photo } from "@/lib/photos";
 import { faqSchema } from "@/lib/seo";
 import { isHeld, site } from "@/lib/site";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 /**
  * The three failure modes that actually stop food consignments, taken verbatim
@@ -67,14 +69,53 @@ const homeFaqs = [
 export default function HomePage() {
   const services = getServices();
   const posts = getPosts().slice(0, 3);
+  const heroPhoto = photo("hero");
 
   return (
     <>
       <JsonLd schema={faqSchema(homeFaqs)} />
 
-      {/* =========================== The file ============================ */}
-      <section className="border-b border-ink-300 bg-paper-50">
-        <Container className="py-10 lg:py-16">
+      {/* =========================== The file ============================
+          The document is laid on the photograph rather than beside it: the
+          image is the surface the file sits on, washed back to ink so it
+          carries the page without competing with it, and overprinted with the
+          same security screen the rest of the world uses. Every word still
+          sits on an opaque block, so the photograph can never cost the type
+          its contrast — which is why this composition is safe and a headline
+          set over open photography is not.
+
+          With no photograph supplied the section is exactly what it was: the
+          paper ground, unchanged. */}
+      <section
+        className={cn(
+          "relative border-b border-ink-300",
+          heroPhoto ? "bg-ink-900" : "bg-paper-50",
+        )}
+      >
+        {heroPhoto ? (
+          <>
+            <Image
+              src={heroPhoto}
+              alt="Noble Star Shipping's own operation — cargo being handled at the company's Dubai facility."
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover grayscale"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-ink-900/75 mix-blend-multiply"
+            />
+            <div
+              aria-hidden="true"
+              className="guilloche pointer-events-none absolute inset-0 text-stamp-200"
+            />
+          </>
+        ) : null}
+
+        <Container
+          className={cn("relative", heroPhoto ? "py-12 lg:py-24" : "py-10 lg:py-16")}
+        >
           <div className="field-grid lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
             {/* ---------------------- left: the form ---------------------- */}
             <div className="bg-white">
@@ -205,28 +246,26 @@ export default function HomePage() {
       ) : null}
 
       {/* ========================= The specialisation ===================== */}
-      <Section tone="violet" className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="linescreen pointer-events-none absolute inset-0 text-stamp-300"
-        />
-        <div className="relative grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      {/* Set on the ordinary paper substrate rather than as a drenched violet
+          band: the argument is the loudest thing on the page already, and it
+          reads as part of the same document as the sections around it. The
+          rule above it does the separating, the way it does everywhere else in
+          this system. Oxide is the one colour used, on the numbers — it is the
+          overprint reserved for refused and stopped, which is precisely what
+          each of these three causes is. */}
+      <Section className="border-t border-paper-300">
+        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
           <div>
             <SectionHeader
               eyebrow="Where we specialise"
               title="Food is where the money is lost"
               intro="Every forwarder moves boxes. Fewer understand what happens when the box contains food — and nearly every costly mistake is made in the paperwork, before the goods ever ship."
-              onDark
             />
             {/* The argument stands on its own; only the link out is held. */}
             {!isHeld("/services") ? (
               <Link
                 href="/services/food-cargo"
-                className={buttonVariants({
-                  variant: "onViolet",
-                  size: "lg",
-                  className: "mt-9",
-                })}
+                className={buttonVariants({ size: "lg", className: "mt-9" })}
               >
                 Our food cargo service
                 <ArrowRight className="size-4" aria-hidden="true" />
@@ -234,11 +273,7 @@ export default function HomePage() {
             ) : (
               <Link
                 href="/quote"
-                className={buttonVariants({
-                  variant: "onViolet",
-                  size: "lg",
-                  className: "mt-9",
-                })}
+                className={buttonVariants({ size: "lg", className: "mt-9" })}
               >
                 Ask us about a food consignment
                 <ArrowRight className="size-4" aria-hidden="true" />
@@ -247,23 +282,23 @@ export default function HomePage() {
           </div>
 
           <div>
-            <p className="u-caption text-stamp-300">
+            <p className="u-caption text-stamp-600">
               The three things that stop a consignment
             </p>
             <ol className="mt-6">
               {foodFailures.map((item, i) => (
                 <li
                   key={item.cause}
-                  className="grid grid-cols-[2.5rem_1fr] gap-x-2 border-t border-stamp-500/50 py-6"
+                  className="grid grid-cols-[2.5rem_1fr] gap-x-2 border-t border-paper-300 py-6"
                 >
-                  <span className="font-mono text-sm text-stamp-300">
+                  <span className="font-mono text-sm text-oxide-600">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="text-lg font-semibold text-ink-900">
                       {item.cause}
                     </h3>
-                    <p className="mt-2 leading-relaxed text-stamp-100/80">
+                    <p className="mt-2 leading-relaxed text-ink-600">
                       {item.detail}
                     </p>
                   </div>
@@ -372,7 +407,7 @@ export default function HomePage() {
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-600">
                     {post.description}
                   </p>
-                  <span className="mt-6 font-mono text-[0.6875rem] text-ink-400">
+                  <span className="mt-6 font-mono text-[0.6875rem] text-ink-500">
                     {formatDate(post.date)} · {post.readingTime} min
                   </span>
                 </Link>

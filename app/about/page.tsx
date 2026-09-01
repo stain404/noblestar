@@ -6,8 +6,10 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { buttonVariants } from "@/components/ui/button";
 import { Attestation, Field, Marker } from "@/components/ui/document";
 import { Section, SectionHeader } from "@/components/ui/section";
+import { getServices } from "@/lib/content";
+import { countries } from "@/lib/coverage";
+import { custodyChain, custodyPartyCount } from "@/lib/custody";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
-import { site } from "@/lib/site";
 import { HoldingNotice } from "@/components/marketing/holding-notice";
 import { isHeld } from "@/lib/site";
 
@@ -50,6 +52,27 @@ export default function AboutPage() {
   const breadcrumbs = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
+  ];
+
+  /**
+   * Every figure here is counted from the data the rest of the site is built
+   * on, not typed in by hand: the coverage table, the service files and the
+   * chain of custody. That is deliberate. A shipment count or a years-in-
+   * business figure is a claim a procurement officer can ask us to
+   * substantiate; these are facts the site itself demonstrates on the page
+   * below, and they cannot drift out of step with it.
+   */
+  const facts = [
+    { label: "GCC markets covered", value: String(countries.length) },
+    { label: "Services under one file", value: String(getServices().length) },
+    {
+      label: "Custody steps we perform ourselves",
+      value: `${custodyChain.filter((step) => step.inHouse).length} of ${custodyChain.length}`,
+    },
+    {
+      label: "Companies handling your cargo",
+      value: String(custodyPartyCount.noblestar),
+    },
   ];
 
   return (
@@ -99,18 +122,22 @@ export default function AboutPage() {
                 By the numbers
               </span>
               <dl className="space-y-0">
-                {site.stats.map((stat) => (
+                {facts.map((fact) => (
                   <div
-                    key={stat.label}
+                    key={fact.label}
                     className="flex items-baseline justify-between gap-4 border-b border-ink-800 py-3.5 last:border-0"
                   >
-                    <dt className="text-sm text-ink-400">{stat.label}</dt>
+                    <dt className="text-sm text-ink-400">{fact.label}</dt>
                     <dd className="shrink-0 font-mono text-xl text-white">
-                      {stat.value}
+                      {fact.value}
                     </dd>
                   </div>
                 ))}
               </dl>
+              <p className="mt-4 text-sm leading-relaxed text-ink-400">
+                Bought separately, the same consignment passes through{" "}
+                {custodyPartyCount.typical} companies.
+              </p>
             </Field>
 
             <Field caption="Procurement">
@@ -147,7 +174,7 @@ export default function AboutPage() {
           {values.map((value, i) => (
             <li key={value.title} className="contents">
               <div className="flex h-full flex-col bg-white p-6">
-                <span className="font-mono text-[0.6875rem] text-ink-400">
+                <span className="font-mono text-[0.6875rem] text-ink-500">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-6 text-lg font-semibold">{value.title}</h3>

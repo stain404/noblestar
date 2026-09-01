@@ -90,7 +90,7 @@ export default function QuotePage() {
                         aria-hidden="true"
                       />
                       {phone.number}
-                      <span className="text-xs text-ink-500">
+                      <span className="text-xs text-ink-400">
                         {phone.label}
                       </span>
                     </a>

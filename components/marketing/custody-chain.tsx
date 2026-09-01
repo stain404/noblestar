@@ -51,7 +51,7 @@ export function CustodyChain() {
               {/* What the step is */}
               <div className="py-5 pr-6">
                 <div className="flex items-baseline gap-3">
-                  <span className="font-mono text-[0.6875rem] text-ink-400">
+                  <span className="font-mono text-[0.6875rem] text-ink-500">
                     {String(step.index).padStart(2, "0")}
                   </span>
                   <h3 className="text-base font-semibold text-ink-900">
@@ -88,7 +88,7 @@ export function CustodyChain() {
                   )}
                 />
                 {ownHandover ? (
-                  <span className="u-caption absolute -top-2.5 left-6 bg-paper-50 px-1.5 text-ink-400">
+                  <span className="u-caption absolute -top-2.5 left-6 bg-paper-50 px-1.5 text-ink-500">
                     Handover
                   </span>
                 ) : null}

@@ -134,7 +134,7 @@ export function QuoteForm() {
                 "inline-flex size-7 shrink-0 items-center justify-center text-xs font-bold transition-colors",
                 index < step && "bg-stamp-500 text-ink-900",
                 index === step && "bg-stamp-700 text-white",
-                index > step && "bg-ink-100 text-ink-400",
+                index > step && "bg-ink-100 text-ink-500",
               )}
               aria-hidden="true"
             >
@@ -143,7 +143,7 @@ export function QuoteForm() {
             <span
               className={cn(
                 "hidden text-sm font-medium sm:inline",
-                index <= step ? "text-ink-900" : "text-ink-400",
+                index <= step ? "text-ink-900" : "text-ink-500",
               )}
             >
               {item.title}

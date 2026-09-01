@@ -88,7 +88,7 @@ export default async function BlogPostPage({
         intro={meta.description}
         breadcrumbs={breadcrumbs}
       >
-        <p className="text-sm text-ink-400">
+        <p className="text-sm text-ink-500">
           <time dateTime={meta.date}>{formatDate(meta.date)}</time> ·{" "}
           {meta.readingTime} min read · {meta.author}
         </p>

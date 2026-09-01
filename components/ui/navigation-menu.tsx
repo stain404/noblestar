@@ -250,7 +250,7 @@ function NavFieldItem({
         {...props}
       >
         <div className="flex items-start justify-between gap-3">
-          <span className="font-mono text-[0.6875rem] text-ink-400">
+          <span className="font-mono text-[0.6875rem] text-ink-500">
             {String(index).padStart(2, "0")}
           </span>
           {link.icon && (
@@ -324,14 +324,14 @@ function NavItemMobile({
       )}
       {...props}
     >
-      <span className="mt-0.5 w-6 shrink-0 font-mono text-[0.6875rem] text-ink-400">
+      <span className="mt-0.5 w-6 shrink-0 font-mono text-[0.6875rem] text-ink-500">
         {index !== undefined ? String(index).padStart(2, "0") : null}
       </span>
       <span className="flex flex-col">
         <span
           className={cn(
             "block text-[0.9375rem] font-semibold transition-colors group-hover:text-stamp-700",
-            held ? "text-ink-400" : "text-ink-900",
+            held ? "text-ink-500" : "text-ink-900",
           )}
         >
           {item.title}

@@ -8,6 +8,7 @@ import { MdxContent } from "@/components/mdx/mdx-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import { buttonVariants } from "@/components/ui/button";
 import { Field } from "@/components/ui/document";
+import { Photograph } from "@/components/ui/photograph";
 import { Section } from "@/components/ui/section";
 import { ServiceIcon } from "@/components/ui/service-icon";
 import { getService, getServices } from "@/lib/content";
@@ -96,6 +97,27 @@ export default async function ServicePage({
         </Link>
       </PageHero>
 
+      {/* The exhibit attached to this service's file. Sits between the hero
+          and the endorsements so it does not compete with the heading, and is
+          simply absent until a photograph for this service is supplied. */}
+      {meta.photo ? (
+        <div className="border-b border-ink-300 bg-paper-50">
+          <div className="container-page py-10">
+            <Photograph
+              src={meta.photo}
+              alt={
+                meta.photoAlt ??
+                `Noble Star Shipping ${meta.navTitle.toLowerCase()} operations`
+              }
+              caption={meta.navTitle}
+              aspect="16 / 9"
+              priority
+              sizes="(min-width: 1280px) 78rem, 100vw"
+            />
+          </div>
+        </div>
+      ) : null}
+
       {/* What the service includes, set as the endorsements block of the form. */}
       <div className="border-b border-ink-300 bg-paper-50">
         <div className="container-page py-10">
@@ -137,7 +159,7 @@ export default async function ServicePage({
                     </div>
                   ))}
                 </dl>
-                <p className="mt-4 text-xs leading-relaxed text-ink-400">
+                <p className="mt-4 text-xs leading-relaxed text-ink-500">
                   Indicative only. Actual transit depends on schedule, customs
                   and border conditions on the day.
                 </p>
@@ -152,7 +174,7 @@ export default async function ServicePage({
                       key={doc}
                       className="grid grid-cols-[2rem_1fr] border-b border-paper-200 py-3 text-sm leading-snug text-ink-600 last:border-0"
                     >
-                      <span className="font-mono text-[0.6875rem] text-ink-400">
+                      <span className="font-mono text-[0.6875rem] text-ink-500">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       {doc}

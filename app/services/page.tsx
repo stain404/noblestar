@@ -53,7 +53,7 @@ export default function ServicesPage() {
       />
 
       <Section>
-        <ServiceGrid services={services} />
+        <ServiceGrid services={services} headingLevel={2} />
       </Section>
 
       <CtaBand />

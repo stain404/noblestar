@@ -42,14 +42,6 @@ export const site = {
     instagram: "https://www.instagram.com/noblestarshipping",
     linkedin: "https://www.linkedin.com/company/noblestarshipping",
   },
-
-  /** Headline figures. Update these as the business grows. */
-  stats: [
-    { value: "4,853+", label: "Shipments delivered" },
-    { value: "6", label: "GCC markets served" },
-    { value: "24–36h", label: "Typical customs clearance" },
-    { value: "5+", label: "Years in operation" },
-  ],
 } as const;
 
 /**

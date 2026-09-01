@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "./logo";
 import { footerNav, isHeld, site } from "@/lib/site";
-import { cn } from "@/lib/utils";
 
 const socials = [
   {
@@ -62,10 +61,11 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className={cn(
-                        "inline-flex items-center text-sm transition-colors hover:text-white",
-                        isHeld(link.href) ? "text-ink-600" : "text-ink-400",
-                      )}
+                      // A held link is not dimmed here: on this ink ground the
+                      // dimmer step drops under 4.5:1, and the state is already
+                      // carried by the oxide mark and its screen-reader label
+                      // below, which say it better than a colour shift would.
+                      className="inline-flex items-center text-sm text-ink-400 transition-colors hover:text-white"
                     >
                       {link.label}
                       {isHeld(link.href) ? (
@@ -96,7 +96,7 @@ export function Footer() {
                     <Phone className="size-4 shrink-0 text-stamp-400" aria-hidden="true" />
                     <span>
                       {phone.number}
-                      <span className="ml-1.5 font-mono text-xs text-ink-500">
+                      <span className="ml-1.5 font-mono text-xs text-ink-400">
                         {phone.label}
                       </span>
                     </span>
@@ -120,7 +120,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-ink-800 pt-6 font-mono text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-ink-800 pt-6 font-mono text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>

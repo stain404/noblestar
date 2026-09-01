@@ -80,10 +80,10 @@ export function Header({ services }: { services: ServiceMeta[] }) {
           be reached. Real document metadata, not decoration. */}
       <div className="border-b border-paper-200 bg-white">
         <div className="container-page flex h-8 items-center justify-between gap-6">
-          <p className="u-caption truncate text-ink-400">
+          <p className="u-caption truncate text-ink-500">
             {site.name} Services L.L.C · Dubai, U.A.E.
           </p>
-          <p className="u-caption hidden shrink-0 text-ink-400 md:block">
+          <p className="u-caption hidden shrink-0 text-ink-500 md:block">
             {site.contact.hours}
           </p>
         </div>
@@ -92,7 +92,12 @@ export function Header({ services }: { services: ServiceMeta[] }) {
       {/* `relative` anchors the mega-menu viewport to the page container, so a
           wide panel centres on the page and stays inside the gutters. */}
       <div className="container-page relative flex h-16 items-center gap-8">
-        <Link href="/" aria-label={`${site.name} — home`} className="shrink-0">
+        {/* The name is real text inside the link rather than an `aria-label`
+            on it. The lockup sets two of its lines as live text, and an
+            `aria-label` over the top of them is announced as a contradiction
+            of what the element contains. */}
+        <Link href="/" className="shrink-0">
+          <span className="sr-only">{site.name} — home</span>
           <Logo />
         </Link>
 
@@ -258,7 +263,7 @@ function MobileMenu({
       <div className="flex-1 overflow-y-auto px-5 pb-8">
         {isHeld("/services") ? (
           <>
-            <p className="u-caption border-b border-ink-300 py-4 text-ink-400">
+            <p className="u-caption border-b border-ink-300 py-4 text-ink-500">
               Services
             </p>
             <NavItemMobile
@@ -272,7 +277,7 @@ function MobileMenu({
           </>
         ) : (
           <>
-            <p className="u-caption border-b border-ink-300 py-4 text-ink-400">
+            <p className="u-caption border-b border-ink-300 py-4 text-ink-500">
               Services
             </p>
             <ul>
@@ -285,7 +290,7 @@ function MobileMenu({
           </>
         )}
 
-        <p className="u-caption border-b border-ink-300 pb-4 pt-8 text-ink-400">
+        <p className="u-caption border-b border-ink-300 pb-4 pt-8 text-ink-500">
           Company
         </p>
         <ul>
