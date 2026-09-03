@@ -191,21 +191,6 @@ export default function HomePage() {
         <ShipmentFlow />
       </Section>
 
-      {/* ============================= Clients ===========================
-          A ruled strip of counterparties, not a floating logo wall. Renders
-          only the logos supplied in public/photos/clients/, and the whole
-          band is absent until at least one exists. */}
-      <section className="border-t border-paper-300 bg-paper-50 py-14 sm:py-16">
-        <Container>
-          <span className="u-caption text-stamp-600">Clients</span>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-600">
-            Importers and distributors across food, retail and general trade
-            whose customs clearance and delivery we run on a single file.
-          </p>
-          <ClientStrip className="mt-10" />
-        </Container>
-      </section>
-
       {/* ============================ Services ===========================
           Skipped entirely while the section is held, rather than shown as a
           grid of seven links to a holding notice. */}
@@ -350,6 +335,21 @@ export default function HomePage() {
           <FaqAccordion faqs={homeFaqs} />
         </div>
       </Section>
+
+      {/* ============================= Clients ===========================
+          A ruled strip of counterparties, not a floating logo wall. Renders
+          only the logos supplied in public/photos/clients/, and the whole
+          band is absent until at least one exists. */}
+      <section className="border-t border-paper-300 bg-paper-50 py-14 sm:py-16">
+        <Container>
+          <span className="u-caption text-stamp-600">Clients</span>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-600">
+            Importers and distributors across food, retail and general trade
+            whose customs clearance and delivery we run on a single file.
+          </p>
+          <ClientStrip className="mt-10" />
+        </Container>
+      </section>
 
       {/* ============================ Insights =========================== */}
       {posts.length > 0 && !isHeld("/blog") ? (
