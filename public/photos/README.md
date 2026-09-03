@@ -29,6 +29,26 @@ This one sits behind the homepage headline, washed back to ink so the type
 stays readable, so it wants depth and activity rather than a single subject.
 Landscape, and the wider the better.
 
+## Client logos — `photos/clients/`
+
+One file per client, named by the slug below. SVG is best (checked first); PNG
+or WebP also resolve. The homepage strip shows only the logos that exist, and
+the whole band is hidden until at least one is present — so add them as they
+are cleared.
+
+| File | Client |
+|---|---|
+| `clients/pasons.svg`      | Pasons Group |
+| `clients/golden-rise.svg` | Golden Rise Trading L.L.C. |
+| `clients/nesto.svg`       | Nesto |
+| `clients/aua.svg`         | Abdulla Ummer Abdulla Foodstuff |
+| `clients/hebron.svg`      | Hebron General Trading L.L.C. |
+| `clients/gateway.svg`     | Gateway Trading Co. L.L.C. |
+
+Supply each logo on a transparent background. The strip greys them back and
+lifts them to full colour on hover. To add, remove or reorder clients, edit
+`lib/clients.ts`. Only display a client that has agreed in writing to be named.
+
 ## Priority 1 — the claims nothing else on the site can prove
 
 | File | What it shows |

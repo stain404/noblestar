@@ -44,6 +44,23 @@ export function photo(name: string): string | null {
 }
 
 /**
+ * Client logos live in `public/photos/clients/`. SVG is preferred and checked
+ * first; a raster file also resolves. Returns `null` until a file is supplied,
+ * so the client strip only ever shows logos that have actually been delivered
+ * and cleared for use.
+ */
+const LOGO_EXTENSIONS = [".svg", ".png", ".webp", ".avif", ".jpg", ".jpeg"];
+
+export function clientLogo(slug: string): string | null {
+  for (const ext of LOGO_EXTENSIONS) {
+    if (fs.existsSync(path.join(DIR, "clients", `${slug}${ext}`))) {
+      return `/photos/clients/${slug}${ext}`;
+    }
+  }
+  return null;
+}
+
+/**
  * The hero background, as an ordered list of every supplied frame: `background`
  * first, then `background_2`, `background_3` and so on for as long as they are
  * present. One frame renders as a still; two or more cross-fade slowly. An

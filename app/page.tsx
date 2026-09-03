@@ -8,6 +8,7 @@ import {
   DataTable,
   Marker,
 } from "@/components/ui/document";
+import { ClientStrip } from "@/components/marketing/client-strip";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { ShipmentFlow } from "@/components/marketing/shipment-flow";
@@ -141,14 +142,11 @@ export default function HomePage() {
           <div className="max-w-2xl">
             <span className="u-caption text-stamp-200">Description of goods</span>
 
-            {/* Deliberately the same proposition as the document title in
-                app/layout.tsx, in the same words. The h1 and the title tag
-                agreeing on one phrase is worth more than two clever variants
-                competing. The differentiator moved to the paragraph below —
-                the heading says what this company is, the body says why it is
-                different. */}
+            {/* States what the company is, plainly and in one line. The
+                differentiator moved to the paragraph below — the heading says
+                what this company does, the body says why it is different. */}
             <h1 className="u-wide mt-6 text-h1 text-white">
-              Freight forwarding and customs clearance across the GCC.
+              Freight forwarding and customs clearance across the entire world.
             </h1>
 
             {/* Deliberately no company count. The five-versus-two arithmetic
@@ -192,6 +190,21 @@ export default function HomePage() {
         />
         <ShipmentFlow />
       </Section>
+
+      {/* ============================= Clients ===========================
+          A ruled strip of counterparties, not a floating logo wall. Renders
+          only the logos supplied in public/photos/clients/, and the whole
+          band is absent until at least one exists. */}
+      <section className="border-t border-paper-300 bg-paper-50 py-14 sm:py-16">
+        <Container>
+          <span className="u-caption text-stamp-600">Clients</span>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-600">
+            Importers and distributors across food, retail and general trade
+            whose customs clearance and delivery we run on a single file.
+          </p>
+          <ClientStrip className="mt-10" />
+        </Container>
+      </section>
 
       {/* ============================ Services ===========================
           Skipped entirely while the section is held, rather than shown as a
