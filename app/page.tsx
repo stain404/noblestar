@@ -10,7 +10,7 @@ import {
   Marker,
 } from "@/components/ui/document";
 import { CtaBand } from "@/components/marketing/cta-band";
-import { CustodyChain } from "@/components/marketing/custody-chain";
+import { ShipmentFlow } from "@/components/marketing/shipment-flow";
 import { FaqAccordion } from "@/components/marketing/faq";
 import { ServiceGrid } from "@/components/marketing/service-grid";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -187,14 +187,14 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* ======================= The proof: custody ======================= */}
+      {/* ===================== The proof: the process ===================== */}
       <Section tone="white">
         <SectionHeader
-          eyebrow="Chain of custody"
-          title="Six steps, and who performs each one"
-          intro="Read down the middle column: every rule is a change of company, and every one is a place a customs query stops while somebody goes looking for somebody else. The violet column is the same file, never handed over."
+          eyebrow="Start to finish"
+          title="How a shipment runs with us"
+          intro="From the booking to the consignee's door, on one file with one coordinator. Every step below, and who carries it out — the work is ours, not subcontracted."
         />
-        <CustodyChain />
+        <ShipmentFlow />
       </Section>
 
       {/* ============================ Services ===========================
