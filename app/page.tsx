@@ -192,7 +192,7 @@ export default function HomePage() {
         <SectionHeader
           eyebrow="Chain of custody"
           title="Six steps, and who performs each one"
-          intro="Every rule in the left column is a change of company. Every one of them is a place where a customs query reaches somebody who then has to reach somebody else."
+          intro="Read down the middle column: every rule is a change of company, and every one is a place a customs query stops while somebody goes looking for somebody else. The violet column is the same file, never handed over."
         />
         <CustodyChain />
       </Section>

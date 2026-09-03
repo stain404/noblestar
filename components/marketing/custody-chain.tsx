@@ -2,16 +2,19 @@ import { cn } from "@/lib/utils";
 import { custodyChain, custodyPartyCount } from "@/lib/custody";
 
 /**
- * The site's central proof.
+ * The site's central proof, drawn so the argument lands before a word is read.
  *
- * Two columns of the same six steps. On the left, the ordinary arrangement,
- * where the file changes hands four times and each boundary is ruled in oxide
- * — those rules are the handovers, and the handover is the defect. On the
- * right, one unbroken violet bar down the steps Noble Star performs itself.
+ * Six steps, run down the page as a manifest. Two lanes carry them. The middle
+ * lane — freight and brokerage bought separately — is severed: at every change
+ * of company an oxide handover rule cuts across it, and the line naming what
+ * goes wrong in that gap is printed right there. The right lane — Noble Star
+ * holding the file — is one unbroken violet column. It is a single drenched
+ * block on purpose: it cannot be broken up, because the file never moves off
+ * the desk.
  *
- * The graphic argues by shape before anyone reads a word of it: broken column
- * against continuous column. Nothing here is decorative — every rule marks a
- * change of party, and every gap is a real one.
+ * Broken fragments against one solid column. Nothing here is decorative: every
+ * rule marks a real change of party, and every failure line is a real failure
+ * mode taken in substance from the service content.
  */
 export function CustodyChain({
   headingLevel = 3,
@@ -24,106 +27,143 @@ export function CustodyChain({
   headingLevel?: 2 | 3;
 } = {}) {
   const Heading = `h${headingLevel}` as const;
+  const cols =
+    "sm:grid sm:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,1fr)]";
 
   return (
-    <div className="mt-12">
-      {/* Column headers, set as the document's own field captions. */}
-      <div className="grid grid-cols-[1fr] gap-px sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)]">
+    <div className="mt-12 sm:mt-16">
+      {/* ============ The count, aligned to the manifest lanes so the
+          violet reads as one continuous column from here down ============ */}
+      <div className={cn("grid grid-cols-1 border-t border-paper-300", cols)}>
         <div className="hidden sm:block" />
-        <div className="border-b border-ink-300 pb-2.5">
-          <span className="u-caption text-ink-500">Bought separately</span>
-          <p className="mt-2 font-mono text-2xl text-oxide-600">
-            {custodyPartyCount.typical} parties
+        <div className="border-t border-paper-300 bg-white py-7 sm:border-t-0 sm:px-5">
+          <span className="u-caption text-oxide-600">Bought separately</span>
+          <p className="mt-4 flex items-baseline gap-3">
+            <span className="font-mono text-5xl leading-none text-oxide-600">
+              {custodyPartyCount.typical}
+            </span>
+            <span className="text-sm text-ink-600">companies on the file</span>
+          </p>
+          <p className="mt-3 text-[0.8125rem] leading-relaxed text-ink-500">
+            Every boundary between them is a place a customs query stops while
+            somebody goes looking for somebody else.
           </p>
         </div>
-        <div className="border-b border-stamp-500 pb-2.5">
-          <span className="u-caption text-stamp-600">With Noble Star</span>
-          <p className="mt-2 font-mono text-2xl text-stamp-700">
-            {custodyPartyCount.noblestar} parties
+        <div className="bg-stamp-700 px-5 py-7 text-stamp-100 max-sm:border-t max-sm:border-stamp-500">
+          <span className="u-caption text-stamp-300">With Noble Star</span>
+          <p className="mt-4 flex items-baseline gap-3">
+            <span className="font-mono text-5xl leading-none text-white">
+              {custodyPartyCount.noblestar}
+            </span>
+            <span className="text-sm text-stamp-200">
+              and we instruct the second
+            </span>
+          </p>
+          <p className="mt-3 text-[0.8125rem] leading-relaxed text-stamp-200">
+            One coordinator holds the file from the booking to the
+            consignee&rsquo;s door. Nothing is handed over.
           </p>
         </div>
       </div>
 
-      <ol className="mt-0">
+      {/* ======================= The manifest ======================= */}
+      <ol className="border-b border-paper-300">
         {custodyChain.map((step, i) => {
           const previous = custodyChain[i - 1];
           // A handover is a change of performing party between adjacent steps.
           const typicalHandover = previous && previous.typical !== step.typical;
-          const ownHandover =
-            previous &&
-            (previous.inHouse ? "Noble Star" : previous.typical) !==
-              (step.inHouse ? "Noble Star" : step.typical);
+          const ownParty = (s: (typeof custodyChain)[number]) =>
+            s.inHouse ? "Noble Star" : s.typical;
+          const ownSeam = previous && ownParty(previous) !== ownParty(step);
 
           return (
-            <li
-              key={step.index}
-              className="grid grid-cols-[1fr] border-b border-paper-200 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)]"
-            >
-              {/* What the step is */}
-              <div className="py-5 pr-6">
-                <div className="flex items-baseline gap-3">
-                  <span className="font-mono text-[0.6875rem] text-ink-500">
+            <li key={step.index} className={cn("grid grid-cols-1", cols)}>
+              {/* ---- What the step is ---- */}
+              <div className="border-b border-paper-200 py-7 pr-8 sm:border-b-0">
+                <div className="flex items-baseline gap-4">
+                  <span className="font-mono text-2xl leading-none text-ink-500 tabular-nums">
                     {String(step.index).padStart(2, "0")}
                   </span>
-                  <Heading className="text-base font-semibold text-ink-900">
+                  <Heading className="text-lg font-semibold text-ink-900 sm:text-xl">
                     {step.name}
                   </Heading>
                 </div>
-                <p className="mt-2 pl-8 text-sm leading-relaxed text-ink-600">
+                <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-600 sm:pl-10">
                   {step.detail}
                 </p>
               </div>
 
-              {/* Bought separately — every party change ruled in oxide */}
+              {/* ---- Bought separately: severed at every handover ---- */}
               <div
                 className={cn(
-                  "relative flex items-center py-5 pl-4 pr-4 sm:pl-6",
-                  typicalHandover && "border-t-2 border-oxide-500",
+                  "relative bg-white py-7 sm:px-5",
+                  typicalHandover
+                    ? "mt-5 border-t-2 border-oxide-500 sm:mt-0"
+                    : "border-t border-paper-200 sm:border-t-0",
                 )}
               >
                 {typicalHandover ? (
-                  <span className="u-caption absolute -top-2.5 left-4 bg-paper-50 px-1.5 text-oxide-600 sm:left-6">
+                  <span className="u-caption absolute -top-[0.9rem] left-0 rotate-[-3deg] border border-oxide-500 bg-white px-1.5 py-1 text-oxide-600 sm:left-5">
                     Handover
                   </span>
                 ) : null}
-                <span className="text-sm text-ink-600">{step.typical}</span>
+                <span className="u-caption mb-2 block text-ink-500">
+                  Performed by
+                </span>
+                <span className="text-[0.9375rem] text-ink-800">
+                  {step.typical}
+                </span>
+                <p
+                  className={cn(
+                    "mt-3 border-l-2 pl-3 text-[0.8125rem] leading-relaxed",
+                    typicalHandover
+                      ? "border-oxide-500 text-oxide-700"
+                      : "border-paper-300 text-ink-500",
+                  )}
+                >
+                  {step.failure}
+                </p>
               </div>
 
-              {/* With Noble Star — one continuous bar where the file never moves */}
-              <div className="relative flex items-center py-5 pl-6 pr-4">
-                <span
-                  aria-hidden="true"
-                  className={cn(
-                    "absolute left-0 top-0 bottom-0 w-1",
-                    step.inHouse ? "bg-stamp-600" : "bg-paper-300",
-                  )}
-                />
-                {ownHandover ? (
-                  <span className="u-caption absolute -top-2.5 left-6 bg-paper-50 px-1.5 text-ink-500">
-                    Handover
-                  </span>
+              {/* ---- With Noble Star: one unbroken violet column ---- */}
+              <div className="relative bg-stamp-700 px-5 py-7 text-stamp-100 max-sm:border-t max-sm:border-stamp-500">
+                {ownSeam ? (
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-0 top-0 border-t border-dashed border-stamp-400/50"
+                  />
                 ) : null}
+                <span className="u-caption mb-2 block text-stamp-300">
+                  Performed by
+                </span>
                 <span
                   className={cn(
-                    "text-sm",
+                    "text-[0.9375rem]",
                     step.inHouse
-                      ? "font-semibold text-stamp-700"
-                      : "text-ink-600",
+                      ? "font-semibold text-white"
+                      : "text-stamp-100/90",
                   )}
                 >
                   {step.noblestar}
                 </span>
+                {!step.inHouse ? (
+                  <p className="mt-3 border-l-2 border-stamp-400/60 pl-3 text-[0.8125rem] leading-relaxed text-stamp-200">
+                    Required by law at origin. They are instructed by us and
+                    report to us, so the answer still reaches you through your
+                    coordinator.
+                  </p>
+                ) : null}
               </div>
             </li>
           );
         })}
       </ol>
 
-      <p className="mt-6 max-w-2xl text-sm leading-relaxed text-ink-500">
-        The one step we do not perform ourselves is origin handling outside the
-        GCC, where a local agent is required by law. We instruct them and they
-        report to us, so the query still reaches you from the person holding
-        your file.
+      <p className="mt-8 max-w-2xl border-t border-paper-300 pt-6 text-sm leading-relaxed text-ink-500">
+        One column is five company names on a single file. The other is Noble
+        Star, five times over, with one agent we instruct at origin. That is the
+        whole difference &mdash; and the reason a held consignment moves again in
+        hours here rather than days.
       </p>
     </div>
   );
