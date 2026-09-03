@@ -11,7 +11,7 @@ import { cn, formatDate } from "@/lib/utils";
 
 export const metadata = {
   ...pageMetadata({
-    title: "Insights — GCC Customs & Freight Guidance",
+    title: "GCC Customs & Freight Insights",
     description:
       "Practical guidance on GCC customs clearance, trade lanes, food import rules and freight cost decisions, from Noble Star Shipping's operations desk.",
     path: "/blog",
@@ -49,7 +49,7 @@ export default async function BlogIndexPage({
 
       <PageHero
         eyebrow="Insights"
-        title="Notes from the operations desk"
+        title="Notes on GCC customs and freight"
         intro="What we have learned moving cargo through GCC customs — written for the people who have to make the decisions, not for search engines."
         breadcrumbs={breadcrumbs}
       />

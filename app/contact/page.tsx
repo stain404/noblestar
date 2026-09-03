@@ -8,9 +8,9 @@ import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Contact Noble Star Shipping",
+  title: "Contact Our Dubai Freight Team",
   description:
-    "Call, WhatsApp or email Noble Star Shipping in Dubai for freight forwarding and customs clearance across the GCC.",
+    "Call, WhatsApp or email our Dubai team for freight forwarding and customs clearance across the GCC. We answer the same business day, Mon to Sat.",
   path: "/contact",
 });
 
@@ -26,7 +26,7 @@ export default function ContactPage() {
 
       <PageHero
         eyebrow="Contact"
-        title="Talk to a coordinator"
+        title="Talk to a Dubai freight coordinator"
         intro="Call, message or write to us. Whichever route you take, a person who moves cargo for a living will answer — not a ticket queue."
         breadcrumbs={breadcrumbs}
       />

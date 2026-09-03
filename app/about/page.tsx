@@ -8,14 +8,14 @@ import { Attestation, Field, Marker } from "@/components/ui/document";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { getServices } from "@/lib/content";
 import { countries } from "@/lib/coverage";
-import { custodyChain, custodyPartyCount } from "@/lib/custody";
+import { custodyChain } from "@/lib/custody";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import { HoldingNotice } from "@/components/marketing/holding-notice";
 import { isHeld } from "@/lib/site";
 
 export const metadata = {
   ...pageMetadata({
-    title: "About Noble Star Shipping",
+    title: "About Our Dubai Freight Company",
     description:
       "A Dubai-based freight forwarder and customs broker serving the GCC, with in-house brokerage, our own drivers and a specialisation in food cargo.",
     path: "/about",
@@ -69,10 +69,6 @@ export default function AboutPage() {
       label: "Custody steps we perform ourselves",
       value: `${custodyChain.filter((step) => step.inHouse).length} of ${custodyChain.length}`,
     },
-    {
-      label: "Companies handling your cargo",
-      value: String(custodyPartyCount.noblestar),
-    },
   ];
 
   return (
@@ -81,7 +77,7 @@ export default function AboutPage() {
 
       <PageHero
         eyebrow="About us"
-        title="We give you control of your shipments"
+        title="A Dubai freight forwarder and customs broker"
         intro="Noble Star Shipping is a Dubai-based freight forwarder and customs broker. We handle every detail of your cargo — from collection at your supplier's door to delivery at your customer's — giving you a smooth run on your supply chain."
         breadcrumbs={breadcrumbs}
       />
@@ -134,10 +130,6 @@ export default function AboutPage() {
                   </div>
                 ))}
               </dl>
-              <p className="mt-4 text-sm leading-relaxed text-ink-400">
-                Bought separately, the same consignment passes through{" "}
-                {custodyPartyCount.typical} companies.
-              </p>
             </Field>
 
             <Field caption="Procurement">

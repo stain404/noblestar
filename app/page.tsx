@@ -4,7 +4,6 @@ import { ArrowRight, Phone } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Container, Section, SectionHeader } from "@/components/ui/section";
 import {
-  Attestation,
   DataCell,
   DataHead,
   DataTable,
@@ -17,11 +16,10 @@ import { ServiceGrid } from "@/components/marketing/service-grid";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getPosts, getServices } from "@/lib/content";
 import { countries } from "@/lib/coverage";
-import { custodyPartyCount } from "@/lib/custody";
 import { photo } from "@/lib/photos";
 import { faqSchema } from "@/lib/seo";
 import { isHeld, site } from "@/lib/site";
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 
 /**
  * The three failure modes that actually stop food consignments, taken verbatim
@@ -69,153 +67,121 @@ const homeFaqs = [
 export default function HomePage() {
   const services = getServices();
   const posts = getPosts().slice(0, 3);
-  const heroPhoto = photo("hero");
+  const heroPhoto = photo("background");
 
   return (
     <>
       <JsonLd schema={faqSchema(homeFaqs)} />
 
-      {/* =========================== The file ============================
-          The document is laid on the photograph rather than beside it: the
-          image is the surface the file sits on, washed back to ink so it
-          carries the page without competing with it, and overprinted with the
-          same security screen the rest of the world uses. Every word still
-          sits on an opaque block, so the photograph can never cost the type
-          its contrast — which is why this composition is safe and a headline
-          set over open photography is not.
+      {/* ========================== The banner ===========================
+          An image-led band: the photograph carries the full width and the
+          type sits directly on it.
 
-          With no photograph supplied the section is exactly what it was: the
-          paper ground, unchanged. */}
-      <section
-        className={cn(
-          "relative border-b border-ink-300",
-          heroPhoto ? "bg-ink-900" : "bg-paper-50",
-        )}
-      >
+          The photograph is held back rather than shown raw — desaturated part
+          of the way and washed with ink — so it reads as a ground this
+          document is printed on rather than as a picture the page is sitting
+          in front of. The scrims below are set from the image's brightest
+          pixel, not its average, so the type's contrast never depends on what
+          the photograph happens to be doing behind it. */}
+      <section className="relative flex min-h-[30rem] items-center border-b border-ink-300 bg-ink-900 lg:min-h-[38rem]">
         {heroPhoto ? (
           <>
             <Image
               src={heroPhoto}
-              alt="Noble Star Shipping's own operation — cargo being handled at the company's Dubai facility."
+              alt="A container ship berthed beneath gantry cranes at sunset."
               fill
               priority
               sizes="100vw"
-              className="object-cover grayscale"
+              className="object-cover grayscale-[0.3]"
+            />
+            {/* Two scrims, one per breakpoint, because the text column is a
+                different fraction of the width at each.
+
+                75% is the floor, and it is not arbitrary. Measured against
+                this image's brightest pixel — the sun — 75% ink composites to
+                a luminance of 0.082, which is 7.9:1 for the white heading and
+                5.2:1 for the violet caption. Both clear AA with room, and
+                they clear it over the worst pixel in the frame rather than
+                the average one, so the type is safe wherever the sun sits.
+
+                Going darker than this buys contrast nobody needs and costs
+                the photograph: at 88% a mid-brightness pixel composites to
+                RGB 35, which is why the first version of this looked like a
+                black band rather than a port.
+
+                From lg up the copy is capped at 42rem inside an 82rem
+                container, so it never passes 55% across. The gradient holds
+                the floor to that point and then opens to 25%, where the ship
+                and the cranes actually read. */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-ink-900/75 lg:hidden"
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-ink-900/75 mix-blend-multiply"
-            />
-            <div
-              aria-hidden="true"
-              className="guilloche pointer-events-none absolute inset-0 text-stamp-200"
+              className="absolute inset-0 hidden lg:block"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, rgba(23,19,31,0.88) 0%, rgba(23,19,31,0.75) 55%, rgba(23,19,31,0.25) 100%)",
+              }}
             />
           </>
         ) : null}
 
-        <Container
-          className={cn("relative", heroPhoto ? "py-12 lg:py-24" : "py-10 lg:py-16")}
-        >
-          <div className="field-grid lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
-            {/* ---------------------- left: the form ---------------------- */}
-            <div className="bg-white">
-              <div className="border-b border-paper-300 px-6 py-4">
-                <span className="field-caption">Issued by</span>
-                <p className="mt-2 text-sm text-ink-700">
-                  {site.name} Services L.L.C — {site.contact.address.full}
-                </p>
-              </div>
+        {/* The empty slot, named. Never rendered in a production build. */}
+        {!heroPhoto && process.env.NODE_ENV !== "production" ? (
+          <>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-4 border border-dashed border-stamp-400/40"
+            />
+            <span className="u-caption pointer-events-none absolute bottom-5 right-5 hidden text-stamp-200 lg:block">
+              Photograph slot · public/photos/background.png
+            </span>
+          </>
+        ) : null}
 
-              <div className="px-6 py-8 lg:px-9 lg:py-12">
-                <span className="field-caption">Description of goods</span>
+        <Container className="relative py-20 lg:py-28">
+          <div className="max-w-2xl">
+            <span className="u-caption text-stamp-200">Description of goods</span>
 
-                <h1 className="u-wide mt-6 text-display text-ink-900">
-                  Freight fails at the handover.
-                </h1>
+            {/* Deliberately the same proposition as the document title in
+                app/layout.tsx, in the same words. The h1 and the title tag
+                agreeing on one phrase is worth more than two clever variants
+                competing. The differentiator moved to the paragraph below —
+                the heading says what this company is, the body says why it is
+                different. */}
+            <h1 className="u-wide mt-6 text-h1 text-white">
+              Freight forwarding and customs clearance across the GCC.
+            </h1>
 
-                <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-600">
-                  Bought separately, your consignment passes through{" "}
-                  <strong className="font-semibold text-oxide-600">
-                    {custodyPartyCount.typical} companies
-                  </strong>{" "}
-                  between your supplier and your door. Every boundary between
-                  them is a place a question can sit unanswered for a day.
-                </p>
-                <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink-600">
-                  We are a freight forwarder and a licensed customs broker with
-                  our own drivers and our own packing facility. With us it
-                  passes through{" "}
-                  <strong className="font-semibold text-stamp-700">
-                    {custodyPartyCount.noblestar}
-                  </strong>{" "}
-                  — and we hold the file for both.
-                </p>
+            {/* Deliberately no company count. The five-versus-two arithmetic
+                asks a reader to hold six jobs and two totals in their head
+                before the point lands, and the point is not a number — it is
+                that the work is not subcontracted. The chain table further
+                down proves it far better than a figure does: one column is
+                five different company names, the other says Noble Star five
+                times, and that reads in about two seconds. */}
+            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-paper-100">
+              Freight forwarding, customs clearance, packing and final delivery
+              are all <strong className="font-semibold text-white">ours</strong>
+              . Most forwarders subcontract three of the four — and every
+              company they hand your cargo to is another place a question can
+              sit unanswered for a day.
+            </p>
 
-                <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                  <Link
-                    href="/quote"
-                    className={buttonVariants({ size: "lg" })}
-                  >
-                    Open a file
-                    <ArrowRight className="size-4" aria-hidden="true" />
-                  </Link>
-                  <a
-                    href={site.contact.phones[0].href}
-                    className={buttonVariants({
-                      variant: "outline",
-                      size: "lg",
-                    })}
-                  >
-                    <Phone className="size-4" aria-hidden="true" />
-                    Speak to a coordinator
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* ------------- right: the stamped certificate ------------- */}
-            <div className="relative flex flex-col justify-between overflow-hidden bg-stamp-700 text-stamp-100">
-              <div
-                aria-hidden="true"
-                className="guilloche pointer-events-none absolute inset-0 text-stamp-200"
-              />
-
-              <div className="relative border-b border-stamp-500/50 px-6 py-4">
-                <span className="field-caption text-stamp-300">
-                  Parties to the file
-                </span>
-              </div>
-
-              <dl className="relative flex-1 px-6 py-8 lg:px-8">
-                <div>
-                  <dt className="u-caption text-stamp-300">
-                    Bought separately
-                  </dt>
-                  <dd className="mt-3 font-mono text-6xl leading-none text-white/45 lg:text-7xl">
-                    {custodyPartyCount.typical}
-                  </dd>
-                </div>
-                <div className="mt-9 border-t border-stamp-500/50 pt-9">
-                  <dt className="u-caption text-stamp-200">With Noble Star</dt>
-                  <dd className="mt-3 font-mono text-6xl leading-none text-white lg:text-7xl">
-                    {custodyPartyCount.noblestar}
-                  </dd>
-                </div>
-              </dl>
-
-              <div className="relative flex items-end justify-between gap-4 border-t border-stamp-500/50 px-6 py-6 lg:px-8">
-                <p className="max-w-[14rem] text-xs leading-relaxed text-stamp-200">
-                  Brokerage, drivers and packing are held in-house, not
-                  subcontracted.
-                </p>
-                <Attestation
-                  label="Registered broker"
-                  authority="Dubai & Abu Dhabi Customs"
-                  tone="stamp"
-                  rotate={-5}
-                  className="shrink-0 bg-stamp-700/60 text-stamp-200"
-                />
-              </div>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Link href="/quote" className={buttonVariants({ size: "lg" })}>
+                Open a file
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+              <a
+                href={site.contact.phones[0].href}
+                className={buttonVariants({ variant: "onViolet", size: "lg" })}
+              >
+                <Phone className="size-4" aria-hidden="true" />
+                Speak to a coordinator
+              </a>
             </div>
           </div>
         </Container>

@@ -13,7 +13,18 @@ import { custodyChain, custodyPartyCount } from "@/lib/custody";
  * against continuous column. Nothing here is decorative — every rule marks a
  * change of party, and every gap is a real one.
  */
-export function CustodyChain() {
+export function CustodyChain({
+  headingLevel = 3,
+}: {
+  /**
+   * Depth of each step's heading. Defaults to 3, which is right under a
+   * section heading set at 2. The homepage opens on this section and sets its
+   * heading to 1, so there it must be 2 or the document skips a level.
+   */
+  headingLevel?: 2 | 3;
+} = {}) {
+  const Heading = `h${headingLevel}` as const;
+
   return (
     <div className="mt-12">
       {/* Column headers, set as the document's own field captions. */}
@@ -54,9 +65,9 @@ export function CustodyChain() {
                   <span className="font-mono text-[0.6875rem] text-ink-500">
                     {String(step.index).padStart(2, "0")}
                   </span>
-                  <h3 className="text-base font-semibold text-ink-900">
+                  <Heading className="text-base font-semibold text-ink-900">
                     {step.name}
-                  </h3>
+                  </Heading>
                 </div>
                 <p className="mt-2 pl-8 text-sm leading-relaxed text-ink-600">
                   {step.detail}

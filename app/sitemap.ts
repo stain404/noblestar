@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPosts, getServices } from "@/lib/content";
+import { countries } from "@/lib/coverage";
 import { absoluteUrl } from "@/lib/seo";
 import { isHeld } from "@/lib/site";
 
@@ -20,6 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: page.changeFrequency,
       priority: page.priority,
+    })),
+    // One entry per GCC market. High priority: these are the pages that
+    // answer a country-specific search, and they carry the customs detail.
+    ...countries.map((country) => ({
+      url: absoluteUrl(`/coverage/${country.slug}`),
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
     })),
     // Generated from the content collections, so new MDX is indexed automatically.
     ...getServices().map((service) => ({

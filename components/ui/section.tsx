@@ -52,6 +52,7 @@ export function SectionHeader({
   intro,
   align = "left",
   onDark = false,
+  headingLevel = 2,
   className,
 }: {
   eyebrow?: string;
@@ -59,8 +60,16 @@ export function SectionHeader({
   intro?: string;
   align?: "left" | "center";
   onDark?: boolean;
+  /**
+   * Depth of the section's heading. Defaults to 2, which is right on any page
+   * whose hero already carries the h1. Pass 1 on a page with no hero, so the
+   * document still has exactly one top-level heading.
+   */
+  headingLevel?: 1 | 2;
   className?: string;
 }) {
+  const Heading = `h${headingLevel}` as const;
+
   return (
     <div
       className={cn(
@@ -95,7 +104,15 @@ export function SectionHeader({
         </div>
       ) : null}
 
-      <h2 className={cn("u-wide text-h2", onDark && "text-white")}>{title}</h2>
+      <Heading
+        className={cn(
+          "u-wide",
+          headingLevel === 1 ? "text-h1" : "text-h2",
+          onDark && "text-white",
+        )}
+      >
+        {title}
+      </Heading>
 
       {intro ? (
         <p

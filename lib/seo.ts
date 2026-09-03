@@ -68,10 +68,13 @@ export function serviceSchema({
   name,
   description,
   path,
+  areaServed = "Gulf Cooperation Council",
 }: {
   name: string;
   description: string;
   path: string;
+  /** Narrow to one market on a country page; defaults to the whole GCC. */
+  areaServed?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -81,7 +84,7 @@ export function serviceSchema({
     url: absoluteUrl(path),
     serviceType: name,
     provider: { "@id": absoluteUrl("/#organization") },
-    areaServed: "Gulf Cooperation Council",
+    areaServed,
   };
 }
 

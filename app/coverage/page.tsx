@@ -1,15 +1,18 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { PageHero } from "@/components/marketing/page-hero";
 import { JsonLd } from "@/components/seo/json-ld";
+import { buttonVariants } from "@/components/ui/button";
 import { Marker } from "@/components/ui/document";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { countries } from "@/lib/coverage";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "GCC Coverage — Ports, Airports & Border Crossings",
+  title: "GCC Coverage — Ports & Borders",
   description:
-    "Noble Star Shipping's coverage across the UAE, Saudi Arabia, Oman, Qatar, Kuwait and Bahrain — the ports, airports, land borders and customs regimes we work in.",
+    "Our coverage across the UAE, Saudi Arabia, Oman, Qatar, Kuwait and Bahrain: the ports, airports, land borders and customs systems we file in.",
   path: "/coverage",
 });
 
@@ -43,13 +46,13 @@ export default function CoveragePage() {
           <ul className="flex overflow-x-auto">
             {countries.map((country) => (
               <li key={country.slug}>
-                <a
-                  href={`#${country.slug}`}
+                <Link
+                  href={`/coverage/${country.slug}`}
                   className="u-caption inline-flex shrink-0 items-center gap-2 border-r border-paper-200 px-4 py-4 text-ink-500 transition-colors hover:bg-stamp-50 hover:text-stamp-700"
                 >
                   <span className="text-ink-900">{country.code}</span>
                   <span className="hidden sm:inline">{country.name}</span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -78,7 +81,16 @@ export default function CoveragePage() {
                   >
                     {country.code}
                   </span>
-                  <h2 className="u-wide text-2xl">{country.name}</h2>
+                  {/* The heading is the link to the market's own page: this
+                      index summarises, that page answers. */}
+                  <h2 className="u-wide text-2xl">
+                    <Link
+                      href={`/coverage/${country.slug}`}
+                      className="transition-colors hover:text-stamp-700"
+                    >
+                      {country.name}
+                    </Link>
+                  </h2>
                 </div>
                 <Marker tone={country.directService ? "cleared" : "plain"}>
                   {country.directService
@@ -119,6 +131,17 @@ export default function CoveragePage() {
                   </p>
                 </div>
               </div>
+
+              <Link
+                href={`/coverage/${country.slug}`}
+                className={buttonVariants({
+                  variant: "outline",
+                  className: "mt-6",
+                })}
+              >
+                Freight and customs in {country.shortName}
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
             </article>
           ))}
         </div>

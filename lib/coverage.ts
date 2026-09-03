@@ -9,6 +9,12 @@
 export type Country = {
   slug: string;
   name: string;
+  /**
+   * The name as it reads mid-sentence, article included — "the UAE" rather
+   * than "United Arab Emirates". Page titles are built from this because the
+   * full legal name pushes a title past the ~60 characters Google will show.
+   */
+  shortName: string;
   code: string;
   flag: string;
   directService: boolean;
@@ -17,12 +23,20 @@ export type Country = {
   airports: string[];
   landBorders: string[];
   customsNote: string;
+  /**
+   * Meta description for this country's own page, written to 140–155
+   * characters so a search result uses the whole snippet rather than
+   * truncating it. Each one names the real gateways and the real declaration
+   * system, because those are the terms an importer actually searches for.
+   */
+  metaDescription: string;
 };
 
 export const countries: Country[] = [
   {
     slug: "uae",
     name: "United Arab Emirates",
+    shortName: "the UAE",
     code: "AE",
     flag: "🇦🇪",
     directService: true,
@@ -33,10 +47,13 @@ export const countries: Country[] = [
     landBorders: ["Ghuwaifat (to Saudi Arabia)", "Hatta / Wajajah (to Oman)"],
     customsNote:
       "Registered with Dubai Customs and Abu Dhabi Customs. Free zone, mainland and transit clearances handled in-house, typically within 24–36 business hours of document receipt.",
+    metaDescription:
+      "Freight forwarding and in-house customs clearance across all seven emirates, through Jebel Ali, Khalifa Port, DXB and DWC. Cleared in 24-36 hours.",
   },
   {
     slug: "saudi-arabia",
     name: "Saudi Arabia",
+    shortName: "Saudi Arabia",
     code: "SA",
     flag: "🇸🇦",
     directService: true,
@@ -47,10 +64,13 @@ export const countries: Country[] = [
     landBorders: ["Al Batha", "Ghuwaifat / Al Ratqa"],
     customsNote:
       "SABER and SASO conformity certificates plus FASAH manifest filing are mandatory. We prepare documentation before departure so trucks are not held at the border.",
+    metaDescription:
+      "Sea, air and road freight into Saudi Arabia with SABER and SASO conformity and FASAH filing prepared before departure, so trucks are not held.",
   },
   {
     slug: "oman",
     name: "Oman",
+    shortName: "Oman",
     code: "OM",
     flag: "🇴🇲",
     directService: true,
@@ -61,10 +81,13 @@ export const countries: Country[] = [
     landBorders: ["Hatta / Wajajah", "Khatmat Malaha", "Mezyad"],
     customsNote:
       "Bayan declarations filed through the Royal Oman Police customs system. GCC common-customs treatment applies to goods already cleared into the UAE.",
+    metaDescription:
+      "Freight and customs clearance into Oman via Sohar, Salalah and Port Sultan Qaboos, with Bayan declarations and next-day road transit from the UAE.",
   },
   {
     slug: "qatar",
     name: "Qatar",
+    shortName: "Qatar",
     code: "QA",
     flag: "🇶🇦",
     directService: true,
@@ -75,10 +98,13 @@ export const countries: Country[] = [
     landBorders: ["Abu Samra (via Saudi Arabia)"],
     customsNote:
       "Al-Nadeeb electronic declarations. Certificate of origin attestation is commonly required — we arrange it as part of the file.",
+    metaDescription:
+      "Freight into Qatar through Hamad Port and Doha, with Al-Nadeeb declarations and certificate of origin attestation arranged as part of your file.",
   },
   {
     slug: "kuwait",
     name: "Kuwait",
+    shortName: "Kuwait",
     code: "KW",
     flag: "🇰🇼",
     directService: false,
@@ -89,10 +115,13 @@ export const countries: Country[] = [
     landBorders: ["Nuwaiseeb (via Saudi Arabia)"],
     customsNote:
       "Import licence held by the consignee is required before arrival. We confirm licence validity at booking to avoid demurrage.",
+    metaDescription:
+      "Freight and customs clearance into Kuwait through our vetted partner network, via Shuwaikh and Shuaiba, with import licence checked at booking.",
   },
   {
     slug: "bahrain",
     name: "Bahrain",
+    shortName: "Bahrain",
     code: "BH",
     flag: "🇧🇭",
     directService: false,
@@ -103,6 +132,8 @@ export const countries: Country[] = [
     landBorders: ["King Fahd Causeway (via Saudi Arabia)"],
     customsNote:
       "OFOQ single-window declarations. Goods already cleared into the GCC customs union may move on a statistical declaration.",
+    metaDescription:
+      "Freight into Bahrain via Khalifa Bin Salman Port and the King Fahd Causeway, with OFOQ single-window declarations handled through our partners.",
   },
 ];
 

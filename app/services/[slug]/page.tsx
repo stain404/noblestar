@@ -32,7 +32,7 @@ export async function generateMetadata({
   return {
     ...pageMetadata({
       title: service.meta.title,
-      description: service.meta.summary,
+      description: service.meta.metaDescription ?? service.meta.summary,
       path: `/services/${slug}`,
     }),
     // Held sections must not be indexed while they are unfinished.

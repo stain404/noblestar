@@ -12,7 +12,7 @@ export const metadata = {
   ...pageMetadata({
     title: "Freight & Customs Services",
     description:
-      "Sea, air and road freight, customs clearance, FCL and LCL cargo and temperature-controlled food logistics across the GCC.",
+      "Sea, air and road freight, customs clearance, FCL and LCL cargo and temperature-controlled food logistics across all six GCC states, on one file.",
     path: "/services",
   }),
   // Held sections must not be indexed while they are unfinished.
@@ -44,7 +44,7 @@ export default function ServicesPage() {
 
       <PageHero
         eyebrow="Services"
-        title="Every leg of the chain, under one file"
+        title="Freight and customs services across the GCC"
         intro="We move cargo by sea, air and road across the GCC and clear it through customs ourselves. Engage us for the whole journey or for a single leg."
         breadcrumbs={[
           { name: "Home", path: "/" },

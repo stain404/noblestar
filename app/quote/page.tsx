@@ -40,7 +40,7 @@ export default function QuotePage() {
 
       <PageHero
         eyebrow="Request a quote"
-        title="Tell us what you need to move"
+        title="Request a freight quote"
         intro="Four short steps. The more precise the cargo details, the more precise the quote — and the fewer surprises later."
         breadcrumbs={breadcrumbs}
       />

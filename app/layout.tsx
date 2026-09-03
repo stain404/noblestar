@@ -31,7 +31,7 @@ const splineMono = Spline_Sans_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Freight Forwarding & Customs Clearance Across the GCC`,
+    default: "Freight Forwarder & Customs Broker Dubai | Noble Star",
     template: `%s | ${site.name}`,
   },
   description: site.description,

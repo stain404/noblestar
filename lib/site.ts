@@ -8,7 +8,7 @@ export const site = {
   shortName: "Noble Star",
   tagline: "Your Shipping & Clearance Service Provider",
   description:
-    "Noble Star Shipping is a GCC freight forwarder and customs broker offering sea, air and road freight, customs clearance, FCL and LCL cargo across the UAE, Saudi Arabia, Oman, Qatar, Kuwait and Bahrain.",
+    "Dubai freight forwarder and licensed customs broker. Sea, air and road freight with in-house customs clearance across all six GCC states.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.noblestarshipping.com",
   locale: "en_AE",
 

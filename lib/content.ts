@@ -18,6 +18,13 @@ export type ServiceMeta = {
   title: string;
   navTitle: string;
   summary: string;
+  /**
+   * Meta description for this service's page, written to 140–155 characters.
+   * Kept separate from `summary` because that one is card copy and has to stay
+   * short — a description written to fit a card wastes half the snippet a
+   * search result would have given it. Falls back to `summary` when absent.
+   */
+  metaDescription?: string;
   icon: string;
   order: number;
   highlights: string[];

@@ -13,7 +13,12 @@ live with none of these.
 
 | File | What it shows |
 |---|---|
-| `hero.jpg` | One wide establishing shot of your operation — the packing floor, a loading bay, or vehicles being worked on. |
+| `background.png` | One wide establishing shot. **Currently a stock container-ship photograph.** |
+
+Replace it by overwriting `background.png` (`.jpg` also resolves). A shot of
+your own operation — the packing floor, a loading bay, vehicles being worked
+on — is worth considerably more here than a stock port scene, which any
+competitor can buy the same afternoon.
 
 This one sits behind the homepage headline, washed back to ink so the type
 stays readable, so it wants depth and activity rather than a single subject.
