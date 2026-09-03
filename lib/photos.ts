@@ -42,3 +42,22 @@ export function photo(name: string): string | null {
   }
   return null;
 }
+
+/**
+ * The hero background, as an ordered list of every supplied frame: `background`
+ * first, then `background_2`, `background_3` and so on for as long as they are
+ * present. One frame renders as a still; two or more cross-fade slowly. An
+ * empty list falls back to the pre-photography hero.
+ */
+export function heroPhotos(): string[] {
+  const first = photo("background");
+  if (!first) return [];
+
+  const frames = [first];
+  for (let n = 2; n <= 8; n++) {
+    const next = photo(`background_${n}`);
+    if (!next) break;
+    frames.push(next);
+  }
+  return frames;
+}

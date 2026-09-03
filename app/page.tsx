@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -10,13 +9,14 @@ import {
   Marker,
 } from "@/components/ui/document";
 import { CtaBand } from "@/components/marketing/cta-band";
+import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { ShipmentFlow } from "@/components/marketing/shipment-flow";
 import { FaqAccordion } from "@/components/marketing/faq";
 import { ServiceGrid } from "@/components/marketing/service-grid";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getPosts, getServices } from "@/lib/content";
 import { countries } from "@/lib/coverage";
-import { photo } from "@/lib/photos";
+import { heroPhotos } from "@/lib/photos";
 import { faqSchema } from "@/lib/seo";
 import { isHeld, site } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
@@ -67,7 +67,7 @@ const homeFaqs = [
 export default function HomePage() {
   const services = getServices();
   const posts = getPosts().slice(0, 3);
-  const heroPhoto = photo("background");
+  const heroSlides = heroPhotos();
 
   return (
     <>
@@ -84,15 +84,11 @@ export default function HomePage() {
           pixel, not its average, so the type's contrast never depends on what
           the photograph happens to be doing behind it. */}
       <section className="relative flex min-h-[30rem] items-center border-b border-ink-300 bg-ink-900 lg:min-h-[38rem]">
-        {heroPhoto ? (
+        {heroSlides.length ? (
           <>
-            <Image
-              src={heroPhoto}
+            <HeroBackdrop
+              slides={heroSlides}
               alt="A container ship berthed beneath gantry cranes at sunset."
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover grayscale-[0.3]"
             />
             {/* Two scrims, one per breakpoint, because the text column is a
                 different fraction of the width at each.
@@ -129,7 +125,7 @@ export default function HomePage() {
         ) : null}
 
         {/* The empty slot, named. Never rendered in a production build. */}
-        {!heroPhoto && process.env.NODE_ENV !== "production" ? (
+        {!heroSlides.length && process.env.NODE_ENV !== "production" ? (
           <>
             <div
               aria-hidden="true"

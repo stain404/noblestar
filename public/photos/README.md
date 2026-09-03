@@ -14,11 +14,16 @@ live with none of these.
 | File | What it shows |
 |---|---|
 | `background.png` | One wide establishing shot. **Currently a stock container-ship photograph.** |
+| `background_2.png`, `background_3.png`, … | Optional. Add these and the hero cross-fades slowly through every frame it finds, in order. One file = a plain still. |
 
-Replace it by overwriting `background.png` (`.jpg` also resolves). A shot of
-your own operation — the packing floor, a loading bay, vehicles being worked
-on — is worth considerably more here than a stock port scene, which any
-competitor can buy the same afternoon.
+Replace them by overwriting `background.png` (`.jpg` also resolves), and add
+`background_2.png` onwards for the slideshow. A shot of your own operation —
+the packing floor, a loading bay, vehicles being worked on — is worth
+considerably more here than a stock port scene, which any competitor can buy
+the same afternoon.
+
+The cross-fade holds each frame for seven seconds and never slides or zooms;
+it stops entirely for visitors who ask for reduced motion.
 
 This one sits behind the homepage headline, washed back to ink so the type
 stays readable, so it wants depth and activity rather than a single subject.
