@@ -1,11 +1,31 @@
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { ContactForm } from "@/components/forms/contact-form";
+import { FaqAccordion } from "@/components/marketing/faq";
 import { PageHero } from "@/components/marketing/page-hero";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Field } from "@/components/ui/document";
-import { Section } from "@/components/ui/section";
-import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
+import { Section, SectionHeader } from "@/components/ui/section";
+import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+const faqs = [
+  {
+    q: "Which countries does Noble Star cover?",
+    a: "We serve all six GCC states — the United Arab Emirates, Saudi Arabia, Oman and Qatar as own operations, and Kuwait and Bahrain through our vetted partner agent network. In every case Noble Star retains single-point control of your file.",
+  },
+  {
+    q: "How quickly can I get a quote?",
+    a: "For standard lanes and commodities, usually the same business day. Complex, hazardous or project cargo may take longer because we confirm equipment and carrier acceptance before quoting rather than after.",
+  },
+  {
+    q: "Do you handle customs clearance as well as freight?",
+    a: "Yes, and it is done in-house. You can also engage us for customs clearance alone if your freight is already arranged.",
+  },
+  {
+    q: "What information do you need to quote?",
+    a: "The origin and destination, the commodity, the gross weight and dimensions or container type, your preferred incoterm, and the date the goods are ready. If you are not sure of any of it, send what you have and we will ask for the rest.",
+  },
+];
 
 export const metadata = pageMetadata({
   title: "Contact Our Dubai Freight Team",
@@ -22,7 +42,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <JsonLd schema={breadcrumbSchema(breadcrumbs)} />
+      <JsonLd schema={[breadcrumbSchema(breadcrumbs), faqSchema(faqs)]} />
 
       <PageHero
         eyebrow="Contact"
@@ -122,6 +142,13 @@ export default function ContactPage() {
           </div>
 
           <ContactForm />
+        </div>
+      </Section>
+
+      <Section>
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <SectionHeader eyebrow="Before you book" title="Straight answers" />
+          <FaqAccordion faqs={faqs} />
         </div>
       </Section>
     </>

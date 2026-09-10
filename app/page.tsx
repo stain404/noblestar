@@ -12,13 +12,10 @@ import { ClientStrip } from "@/components/marketing/client-strip";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { ShipmentFlow } from "@/components/marketing/shipment-flow";
-import { FaqAccordion } from "@/components/marketing/faq";
 import { ServiceGrid } from "@/components/marketing/service-grid";
-import { JsonLd } from "@/components/seo/json-ld";
 import { getPosts, getServices } from "@/lib/content";
 import { countries } from "@/lib/coverage";
 import { heroPhotos } from "@/lib/photos";
-import { faqSchema } from "@/lib/seo";
 import { isHeld, site } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 
@@ -46,25 +43,6 @@ const foodFailures = [
   },
 ];
 
-const homeFaqs = [
-  {
-    q: "Which countries does Noble Star cover?",
-    a: "We serve all six GCC states — the United Arab Emirates, Saudi Arabia, Oman and Qatar as own operations, and Kuwait and Bahrain through our vetted partner agent network. In every case Noble Star retains single-point control of your file.",
-  },
-  {
-    q: "How quickly can I get a quote?",
-    a: "For standard lanes and commodities, usually the same business day. Complex, hazardous or project cargo may take longer because we confirm equipment and carrier acceptance before quoting rather than after.",
-  },
-  {
-    q: "Do you handle customs clearance as well as freight?",
-    a: "Yes, and it is done in-house. You can also engage us for customs clearance alone if your freight is already arranged.",
-  },
-  {
-    q: "What information do you need to quote?",
-    a: "The origin and destination, the commodity, the gross weight and dimensions or container type, your preferred incoterm, and the date the goods are ready. If you are not sure of any of it, send what you have and we will ask for the rest.",
-  },
-];
-
 export default function HomePage() {
   const services = getServices();
   const posts = getPosts().slice(0, 3);
@@ -72,8 +50,6 @@ export default function HomePage() {
 
   return (
     <>
-      <JsonLd schema={faqSchema(homeFaqs)} />
-
       {/* ========================== The banner ===========================
           An image-led band: the photograph carries the full width and the
           type sits directly on it.
@@ -323,17 +299,6 @@ export default function HomePage() {
             ))}
           </tbody>
         </DataTable>
-      </Section>
-
-      {/* ============================== FAQ ============================== */}
-      <Section>
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <SectionHeader
-            eyebrow="Before you book"
-            title="Straight answers"
-          />
-          <FaqAccordion faqs={homeFaqs} />
-        </div>
       </Section>
 
       {/* ============================= Clients ===========================

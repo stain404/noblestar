@@ -32,7 +32,7 @@ export const site = {
       country: "United Arab Emirates",
       full: "Al Mezan Tower, Al Qusais, Muhaisnah 4, Fewa 1, Dubai",
     },
-    hours: "Monday – Saturday, 9:00 – 18:00 GST",
+    hours: "Monday – Saturday, 9:00 AM – 6:00 PM GST",
     /** Schema.org opening-hours shorthand, kept in step with `hours` above. */
     openingHours: "Mo-Sa 09:00-18:00",
   },
@@ -50,6 +50,11 @@ export const site = {
  */
 export const mainNav = [
   {
+    label: "About",
+    href: "/about",
+    description: "Who we are and how we move your cargo",
+  },
+  {
     label: "Services",
     href: "/services",
     description: "Sea, air and road freight plus in-house customs brokerage",
@@ -58,11 +63,6 @@ export const mainNav = [
     label: "Coverage",
     href: "/coverage",
     description: "Ports, airports and land borders across all six GCC markets",
-  },
-  {
-    label: "About",
-    href: "/about",
-    description: "Who we are and how we move your cargo",
   },
   {
     label: "Insights",

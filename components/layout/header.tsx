@@ -57,13 +57,11 @@ export function Header({ services }: { services: ServiceMeta[] }) {
     icon: serviceIcon(service.icon),
   }));
 
-  const otherLinks: NavItemType[] = mainNav
-    .filter((item) => item.href !== "/services")
-    .map((item) => ({
-      title: item.label,
-      href: item.href,
-      description: item.description,
-    }));
+  const navLinks: NavItemType[] = mainNav.map((item) => ({
+    title: item.label,
+    href: item.href,
+    description: item.description,
+  }));
 
   const primaryPhone = site.contact.phones[0];
 
@@ -103,7 +101,7 @@ export function Header({ services }: { services: ServiceMeta[] }) {
 
         <DesktopMenu
           serviceLinks={serviceLinks}
-          otherLinks={otherLinks}
+          navLinks={navLinks}
           isActive={isActive}
         />
 
@@ -154,7 +152,7 @@ export function Header({ services }: { services: ServiceMeta[] }) {
 
               <MobileMenu
                 serviceLinks={serviceLinks}
-                otherLinks={otherLinks}
+                navLinks={navLinks}
               />
             </SheetContent>
           </Sheet>
@@ -168,82 +166,80 @@ export function Header({ services }: { services: ServiceMeta[] }) {
 
 function DesktopMenu({
   serviceLinks,
-  otherLinks,
+  navLinks,
   isActive,
 }: {
   serviceLinks: NavItemType[];
-  otherLinks: NavItemType[];
+  navLinks: NavItemType[];
   isActive: (href: string) => boolean;
 }) {
   return (
     <NavigationMenu className="hidden lg:block" aria-label="Main">
       <NavigationMenuList>
-        {/* Services is the only section deep enough to earn a panel; the rest
-            are single pages and read faster as flat labels. While the section
-            is held the panel collapses to a flat label — a menu of pages that
-            are not ready would advertise seven dead ends. */}
-        {isHeld("/services") ? (
-          <NavigationMenuItem>
-            <NavTopLink
-              item={{ title: "Services", href: "/services" }}
-              active={isActive("/services")}
-              held
-            />
-          </NavigationMenuItem>
-        ) : (
-        <NavigationMenuItem>
-          <NavigationMenuTrigger
-            data-active={isActive("/services") ? "" : undefined}
-          >
-            Services
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <div className="w-[min(62rem,calc(100vw-5rem))]">
-              <ul className="grid grid-cols-2 border-l border-paper-200 md:grid-cols-4">
-                {serviceLinks.map((link, i) => (
-                  <li key={link.href} className="contents">
-                    <NavFieldItem
-                      link={link}
-                      index={i + 1}
-                      active={isActive(link.href)}
-                    />
-                  </li>
-                ))}
-                {/* The panel's last cell is the index of the whole range —
-                    it completes the grid instead of leaving a hole. */}
-                <li className="contents">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="/services"
-                      className="group flex h-full flex-col justify-between gap-3 border-r border-b border-paper-200 bg-stamp-700 p-5 text-paper-50 transition-colors hover:bg-stamp-800"
-                    >
-                      <span className="u-caption text-stamp-300">All</span>
-                      <span className="text-[0.9375rem] font-semibold text-white">
-                        The full range →
-                      </span>
-                    </Link>
-                  </NavigationMenuLink>
-                </li>
-              </ul>
-              <div className="flex items-center justify-between gap-4 border-t border-ink-300 bg-white px-5 py-3">
-                <p className="text-xs text-ink-500">
-                  Sea, air, road and customs — end to end across the GCC.
-                </p>
-              </div>
-            </div>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        )}
+        {/* Rendered in `mainNav` order. Services is the only section deep
+            enough to earn a panel; the rest are single pages and read faster
+            as flat labels. While Services is held the panel collapses to a
+            flat label — a menu of pages that are not ready would advertise
+            seven dead ends. */}
+        {navLinks.map((link) => {
+          if (link.href === "/services" && !isHeld("/services")) {
+            return (
+              <NavigationMenuItem key={link.href}>
+                <NavigationMenuTrigger
+                  data-active={isActive("/services") ? "" : undefined}
+                >
+                  Services
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="w-[min(62rem,calc(100vw-5rem))]">
+                    <ul className="grid grid-cols-2 border-l border-paper-200 md:grid-cols-4">
+                      {serviceLinks.map((service, i) => (
+                        <li key={service.href} className="contents">
+                          <NavFieldItem
+                            link={service}
+                            index={i + 1}
+                            active={isActive(service.href)}
+                          />
+                        </li>
+                      ))}
+                      {/* The panel's last cell is the index of the whole
+                          range — it completes the grid instead of leaving a
+                          hole. */}
+                      <li className="contents">
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href="/services"
+                            className="group flex h-full flex-col justify-between gap-3 border-r border-b border-paper-200 bg-stamp-700 p-5 text-paper-50 transition-colors hover:bg-stamp-800"
+                          >
+                            <span className="u-caption text-stamp-300">All</span>
+                            <span className="text-[0.9375rem] font-semibold text-white">
+                              The full range →
+                            </span>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                    <div className="flex items-center justify-between gap-4 border-t border-ink-300 bg-white px-5 py-3">
+                      <p className="text-xs text-ink-500">
+                        Sea, air, road and customs — end to end, worldwide.
+                      </p>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            );
+          }
 
-        {otherLinks.map((link) => (
-          <NavigationMenuItem key={link.href}>
-            <NavTopLink
-              item={link}
-              active={isActive(link.href)}
-              held={isHeld(link.href)}
-            />
-          </NavigationMenuItem>
-        ))}
+          return (
+            <NavigationMenuItem key={link.href}>
+              <NavTopLink
+                item={link}
+                active={isActive(link.href)}
+                held={isHeld(link.href)}
+              />
+            </NavigationMenuItem>
+          );
+        })}
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -253,53 +249,40 @@ function DesktopMenu({
 
 function MobileMenu({
   serviceLinks,
-  otherLinks,
+  navLinks,
 }: {
   serviceLinks: NavItemType[];
-  otherLinks: NavItemType[];
+  navLinks: NavItemType[];
 }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex-1 overflow-y-auto px-5 pb-8">
-        {isHeld("/services") ? (
-          <>
-            <p className="u-caption border-b border-ink-300 py-4 text-ink-500">
-              Services
-            </p>
-            <NavItemMobile
-              item={{
-                title: "Services",
-                href: "/services",
-                description: "In preparation",
-              }}
-              held
-            />
-          </>
-        ) : (
-          <>
-            <p className="u-caption border-b border-ink-300 py-4 text-ink-500">
-              Services
-            </p>
-            <ul>
-              {serviceLinks.map((link, i) => (
-                <li key={link.href}>
-                  <NavItemMobile item={link} index={i + 1} />
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+        {navLinks.map((link) => {
+          if (link.href === "/services" && !isHeld("/services")) {
+            return (
+              <div key={link.href}>
+                <p className="u-caption border-b border-ink-300 py-4 text-ink-500">
+                  Services
+                </p>
+                <ul>
+                  {serviceLinks.map((service, i) => (
+                    <li key={service.href}>
+                      <NavItemMobile item={service} index={i + 1} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          }
 
-        <p className="u-caption border-b border-ink-300 pb-4 pt-8 text-ink-500">
-          Company
-        </p>
-        <ul>
-          {otherLinks.map((link) => (
-            <li key={link.href}>
-              <NavItemMobile item={link} held={isHeld(link.href)} />
-            </li>
-          ))}
-        </ul>
+          return (
+            <NavItemMobile
+              key={link.href}
+              item={link}
+              held={isHeld(link.href)}
+            />
+          );
+        })}
       </div>
 
       <div className="flex shrink-0 flex-col gap-3 border-t border-ink-300 bg-white px-5 py-5">

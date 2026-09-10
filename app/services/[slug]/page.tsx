@@ -8,7 +8,6 @@ import { MdxContent } from "@/components/mdx/mdx-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import { buttonVariants } from "@/components/ui/button";
 import { Field } from "@/components/ui/document";
-import { Photograph } from "@/components/ui/photograph";
 import { Section } from "@/components/ui/section";
 import { ServiceIcon } from "@/components/ui/service-icon";
 import { getService, getServices } from "@/lib/content";
@@ -87,6 +86,16 @@ export default async function ServicePage({
         title={meta.title}
         intro={meta.summary}
         breadcrumbs={breadcrumbs}
+        backdrop={
+          meta.photo
+            ? {
+                src: meta.photo,
+                alt:
+                  meta.photoAlt ??
+                  `${meta.navTitle.toLowerCase()} operations`,
+              }
+            : undefined
+        }
       >
         <Link
           href={`/quote?service=${slug}`}
@@ -96,27 +105,6 @@ export default async function ServicePage({
           <ArrowRight className="size-4" aria-hidden="true" />
         </Link>
       </PageHero>
-
-      {/* The exhibit attached to this service's file. Sits between the hero
-          and the endorsements so it does not compete with the heading, and is
-          simply absent until a photograph for this service is supplied. */}
-      {meta.photo ? (
-        <div className="border-b border-ink-300 bg-paper-50">
-          <div className="container-page py-10">
-            <Photograph
-              src={meta.photo}
-              alt={
-                meta.photoAlt ??
-                `Noble Star Shipping ${meta.navTitle.toLowerCase()} operations`
-              }
-              caption={meta.navTitle}
-              aspect="16 / 9"
-              priority
-              sizes="(min-width: 1280px) 78rem, 100vw"
-            />
-          </div>
-        </div>
-      ) : null}
 
       {/* What the service includes, set as the endorsements block of the form. */}
       <div className="border-b border-ink-300 bg-paper-50">
